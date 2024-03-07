@@ -1,0 +1,21 @@
+#include <stdio.h>
+
+int main() {
+    int a[] = {0, 1, 2};
+    char b[] = {'A', 'B', 'C', '\0'};
+    float c[] = {1.1, 2.2, 3.3};
+
+    FILE *file = fopen("a.bin", "wb");
+    if (file == NULL) {
+        printf("無法開啟檔案\n");
+        return 1;
+    }
+
+    fwrite(a, sizeof(int), 3, file);
+    fwrite(b, sizeof(char), 4, file);
+    fwrite(c, sizeof(float), 3, file);
+
+    fclose(file);
+
+    return 0;
+}
