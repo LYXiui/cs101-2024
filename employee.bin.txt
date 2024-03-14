@@ -1,6 +1,33 @@
 #include <stdio.h>
 #include <string.h>
 
+typedef struct employee {
+    int id;
+    char name[10];
+    float salary;
+} employee_t;
+
+void emp_info(employee_t emp) {
+    printf("employee id = %d\n", emp.id);
+    printf("employee name = %s\n", emp.name);
+    printf("employee age = %d\n", emp.age);
+    printf("employee salary = %02f\n\n", emp.salary);
+}
+
+int emp_aveage_age(employee_t emp{}, int n) {
+    int sum = 0;
+    for(int i=0;i<3;i++0) {
+        sum+=emp[i].age;
+    }
+    return sum/3;
+}
+
+int main() {
+    employ_t my_emp;
+    printf("%d\n", (int)sizeof(employee_t));
+    return 0;
+}
+
 void emp_writefile(employee_t emp[], int n) {
     FILE* fp = fopen("employee.bin", "wb+");
     for (int i=0;i<n;i++) {
@@ -9,10 +36,6 @@ void emp_writefile(employee_t emp[], int n) {
     fclose(fp);
     return;
 }
-
-
-#include <stdio.h>
-#include <string.h>
 
 void emp_readfile(employee_t emp[]) {
     FILE* fp = fopen("employee.bin", "rb");
