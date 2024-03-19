@@ -1,20 +1,60 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
-int main() {
-    FILE *file;
-    char filename[] = "employee.bin";
-    char c;
+#define MAX_LOTTO_NUM 49
+#define NUM_PER_LOTTO 7
 
-    file = fopen(filename, "r");
-    if (file) {
-        while ((c = getc(file)) != EOF) {
-            printf("%c", c);
-        }
-        fclose(file);
-    } else {
-        printf("Failed to open file %s\n", filename);
+void generateLotto(int n, FILE *fp);
+
+int main(void) {
+    printf("歡迎光臨長庚樂透彩購買機台\n");
+    printf("請問您要買幾組樂透彩:");
+    int n;
+    scanf("%d", &n);
+
+    FILE *fp;
+    fp = fopen("lotto.txt", "w");
+
+    if (fp == NULL) {
+        printf("檔案開啟失敗\n");
         return 1;
     }
 
+    // 獲取並輸出當前時間
+    time_t t = time(NULL);
+    struct tm *tm = localtime(&t);
+    fprintf(fp, "%s", asctime(tm));
+
+    fprintf(fp, "以您購買的%d組樂透組合輸出至 lotto.txt\n", n);
+
+    for (int i = 0; i < n; i++) {
+        generateLotto(i + 1, fp);
+    }
+
+    fclose(fp);
+
+    printf("購買結束，請查看 lotto.txt\n");
+
     return 0;
+}
+
+void generateLotto(int n, FILE *fp) {
+    int lotto[NUM_PER_LOTTO];
+    int picked[MAX_LOTTO_NUM] = {0};
+
+    fprintf(fp, "[%d] ", n);
+
+    for (int i = 0; i < NUM_PER_LOTTO; i++) {
+        int num;
+        do {
+            num = rand() % MAX_LOTTO_NUM + 1;
+        } while (picked[num - 1]);
+
+        picked[num - 1] = 1;
+        lotto[i] = num;
+        fprintf(fp, "%d ", num);
+    }
+
+    fprintf(fp, "\n");
 }

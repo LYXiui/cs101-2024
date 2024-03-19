@@ -1,0 +1,29 @@
+#include <stdio.h>
+
+int main() {
+    char filename[] = "main2.txt";
+    FILE *fp_in, *fp_out;
+    char ch;
+
+    fp_in = fopen(__FILE__, "r");
+    if (fp_in == NULL) {
+        perror("Error opening file");
+        return 0;
+    }
+
+    fp_out = fopen(filename, "w");
+    if (fp_out == NULL) {
+        perror("Error opening file");
+        fclose(fp_in);
+        return 0;
+    }
+
+    while ((ch = fgetc(fp_in)) != EOF) {
+        fputc(ch, fp_out);
+    }
+
+    fclose(fp_in);
+    fclose(fp_out);
+    printf("Contents of %s written to %s.\n", __FILE__, filename);
+    return 0;
+}
